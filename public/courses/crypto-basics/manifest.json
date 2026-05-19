@@ -1,0 +1,20 @@
+{
+  "id": "crypto-basics",
+  "title": {
+    "en": "Crypto Basics",
+    "my": "Crypto အခြေခံ",
+    "zh": "加密基础"
+  },
+  "chapters": [
+    {
+      "id": "intro",
+      "title": {
+        "en": "Introduction",
+        "my": "မိတ်ဆက်",
+        "zh": "介绍"
+      },
+      "lesson": "intro.md",
+      "quiz": "intro.json"
+    }
+  ]
+}
