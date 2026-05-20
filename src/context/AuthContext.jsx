@@ -6,12 +6,15 @@ import {
 } from "react"
 
 import { supabase } from "../lib/supabase"
+import { fetchProfile, saveProfile } from "../utils/profile"
 
 const AuthContext = createContext()
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
   const [isAuthReady, setIsAuthReady] = useState(false)
+  const [profile, setProfile] = useState(null)
+  const [isProfileLoading, setIsProfileLoading] = useState(false)
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
@@ -31,6 +34,40 @@ export function AuthProvider({ children }) {
     return () => subscription.unsubscribe()
   }, [])
 
+  useEffect(() => {
+    if (!user) {
+      setProfile(null)
+      setIsProfileLoading(false)
+      return
+    }
+
+    let isActive = true
+
+    async function loadProfile() {
+      setIsProfileLoading(true)
+
+      try {
+        const nextProfile = await fetchProfile(user.id)
+
+        if (!isActive) return
+        setProfile(nextProfile)
+      } catch {
+        if (!isActive) return
+        setProfile(null)
+      } finally {
+        if (isActive) {
+          setIsProfileLoading(false)
+        }
+      }
+    }
+
+    loadProfile()
+
+    return () => {
+      isActive = false
+    }
+  }, [user])
+
   async function signIn(email, password) {
     return supabase.auth.signInWithPassword({
       email,
@@ -49,14 +86,36 @@ export function AuthProvider({ children }) {
     return supabase.auth.signOut()
   }
 
+  async function refreshProfile() {
+    if (!user) return null
+
+    const nextProfile = await fetchProfile(user.id)
+    setProfile(nextProfile)
+    return nextProfile
+  }
+
+  async function updateProfile(updates) {
+    if (!user) {
+      throw new Error("You need to be signed in to update your profile.")
+    }
+
+    const nextProfile = await saveProfile(user.id, updates)
+    setProfile(nextProfile)
+    return nextProfile
+  }
+
   return (
     <AuthContext.Provider
       value={{
         user,
         isAuthReady,
+        profile,
+        isProfileLoading,
         signIn,
         signUp,
-        signOut
+        signOut,
+        refreshProfile,
+        updateProfile
       }}
     >
       {children}
