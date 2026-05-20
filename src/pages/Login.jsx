@@ -4,7 +4,7 @@ import { Link, Navigate } from "react-router-dom"
 import { useAuth } from "../context/AuthContext"
 
 export default function Login() {
-  const { user, isAuthReady, signIn, signUp } = useAuth()
+  const { user, isAuthReady, signIn, signUp, requestPasswordReset } = useAuth()
 
   const [mode, setMode] = useState("signin")
   const [email, setEmail] = useState("")
@@ -14,6 +14,18 @@ export default function Login() {
     message: "",
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
+
+  function switchMode(nextMode) {
+    setMode(nextMode)
+    setStatus({
+      type: "",
+      message: "",
+    })
+
+    if (nextMode === "forgot") {
+      setPassword("")
+    }
+  }
 
   if (isAuthReady && user) {
     return <Navigate to="/" replace />
@@ -27,6 +39,26 @@ export default function Login() {
       type: "",
       message: "",
     })
+
+    if (mode === "forgot") {
+      const { error } = await requestPasswordReset(email)
+
+      if (error) {
+        setStatus({
+          type: "error",
+          message: error.message,
+        })
+        setIsSubmitting(false)
+        return
+      }
+
+      setStatus({
+        type: "success",
+        message: "Password reset link sent. Check your inbox and open the recovery email.",
+      })
+      setIsSubmitting(false)
+      return
+    }
 
     const action = mode === "signin" ? signIn : signUp
     const { error } = await action(email, password)
@@ -123,7 +155,8 @@ export default function Login() {
 
             <div className="inline-flex rounded-full border border-white/10 bg-white/5 p-1">
               <button
-                onClick={() => setMode("signin")}
+                type="button"
+                onClick={() => switchMode("signin")}
                 className={`rounded-full px-4 py-2 text-sm font-medium transition ${
                   mode === "signin"
                     ? "bg-white text-slate-950 shadow-lg"
@@ -133,7 +166,8 @@ export default function Login() {
                 Sign in
               </button>
               <button
-                onClick={() => setMode("signup")}
+                type="button"
+                onClick={() => switchMode("signup")}
                 className={`rounded-full px-4 py-2 text-sm font-medium transition ${
                   mode === "signup"
                     ? "bg-white text-slate-950 shadow-lg"
@@ -141,6 +175,17 @@ export default function Login() {
                 }`}
               >
                 Register
+              </button>
+              <button
+                type="button"
+                onClick={() => switchMode("forgot")}
+                className={`rounded-full px-4 py-2 text-sm font-medium transition ${
+                  mode === "forgot"
+                    ? "bg-white text-slate-950 shadow-lg"
+                    : "text-slate-300 hover:text-white"
+                }`}
+              >
+                Reset
               </button>
             </div>
           </div>
@@ -158,17 +203,19 @@ export default function Login() {
               />
             </label>
 
-            <label className="block space-y-2">
-              <span className="text-sm font-medium text-slate-200">Password</span>
-              <input
-                type="password"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-                placeholder="Minimum 6 characters"
-                className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-white outline-none transition placeholder:text-slate-500 focus:border-cyan-300/40 focus:bg-cyan-300/5"
-                required
-              />
-            </label>
+            {mode !== "forgot" ? (
+              <label className="block space-y-2">
+                <span className="text-sm font-medium text-slate-200">Password</span>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
+                  placeholder="Minimum 6 characters"
+                  className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-white outline-none transition placeholder:text-slate-500 focus:border-cyan-300/40 focus:bg-cyan-300/5"
+                  required
+                />
+              </label>
+            ) : null}
 
             {status.message ? (
               <div
@@ -191,15 +238,33 @@ export default function Login() {
                 ? "Please wait..."
                 : mode === "signin"
                   ? "Sign in"
-                  : "Create account"}
+                  : mode === "signup"
+                    ? "Create account"
+                    : "Send reset link"}
             </button>
           </form>
 
           <p className="mt-5 text-sm leading-6 text-slate-400">
             {mode === "signin"
               ? "Use the same email you want tied to your saved course progress."
-              : "If email confirmation is enabled in Supabase, you may need to verify before signing in."}
+              : mode === "signup"
+                ? "If email confirmation is enabled in Supabase, you may need to verify before signing in."
+                : "Enter your email and we'll send you to the secure password recovery flow."}
           </p>
+
+          {mode === "signin" ? (
+            <div className="mt-4 text-sm text-slate-400">
+              Forgot your password?{" "}
+              <button
+                type="button"
+                onClick={() => switchMode("forgot")}
+                className="font-semibold text-cyan-200 transition hover:text-cyan-100"
+              >
+                Reset it here
+              </button>
+              .
+            </div>
+          ) : null}
         </section>
       </div>
     </div>

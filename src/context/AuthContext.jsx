@@ -86,6 +86,23 @@ export function AuthProvider({ children }) {
     return supabase.auth.signOut()
   }
 
+  async function requestPasswordReset(email) {
+    const redirectTo = new URL(
+      `${import.meta.env.BASE_URL}reset-password`,
+      window.location.origin
+    ).toString()
+
+    return supabase.auth.resetPasswordForEmail(email, {
+      redirectTo,
+    })
+  }
+
+  async function updatePassword(password) {
+    return supabase.auth.updateUser({
+      password,
+    })
+  }
+
   async function refreshProfile() {
     if (!user) return null
 
@@ -114,6 +131,8 @@ export function AuthProvider({ children }) {
         signIn,
         signUp,
         signOut,
+        requestPasswordReset,
+        updatePassword,
         refreshProfile,
         updateProfile
       }}
