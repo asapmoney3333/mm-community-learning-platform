@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://StellarTronix.github.io/mm-community-learning-platform",
+  "homepage": "https://WinPhay.github.io/mm-community-learning-platform",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
