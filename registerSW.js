@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator) {window.addEventListener('load', () => {navigator.serviceWorker.register('/mm-community-learning-platform/sw.js', { scope: '/mm-community-learning-platform/' })})}
