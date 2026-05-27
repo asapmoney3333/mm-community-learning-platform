@@ -383,6 +383,14 @@ export default function LightweightChart({
     lines: [],
     labels: [],
   })
+  const markersKey = JSON.stringify(markers)
+  const zonesKey = JSON.stringify(zones)
+  const linesKey = JSON.stringify(lines)
+  const labelsKey = JSON.stringify(labels)
+  const levelsKey = JSON.stringify(levels)
+  const indicatorsKey = JSON.stringify(indicators)
+  const volumeDataKey = JSON.stringify(volumeData)
+  const dataKey = JSON.stringify(data)
 
   useEffect(() => {
     if (!containerRef.current) return undefined
@@ -497,17 +505,17 @@ export default function LightweightChart({
       chart.remove()
     }
   }, [
-    data,
+    dataKey,
     height,
-    indicators,
-    labels,
-    levels,
-    lines,
-    markers,
+    indicatorsKey,
+    labelsKey,
+    levelsKey,
+    linesKey,
+    markersKey,
     showVolume,
     type,
-    volumeData,
-    zones,
+    volumeDataKey,
+    zonesKey,
   ])
 
   return (
