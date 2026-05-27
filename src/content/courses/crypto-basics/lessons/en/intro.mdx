@@ -48,6 +48,61 @@ Crypto is a form of **digital money** that moves across internet-based networks 
   If someone gets your private key or recovery phrase, they can usually control your funds. Convenience matters, but security matters more.
 </Callout>
 
+<<<<<<< HEAD
+=======
+## Live market view
+
+<PriceChart preset="btcSwing" />
+
+<SimulatorChart />
+
+<PriceChart
+  preset="btcTrend"
+  title="Lesson Overlay Example"
+  subtitle="This chart mixes support, resistance, a trend line, and indicators directly inside MDX."
+  zones={[
+    {
+      from: "2026-05-05",
+      to: "2026-05-11",
+      low: 93100,
+      high: 94600,
+      color: "rgba(34,197,94,0.15)",
+      borderColor: "rgba(34,197,94,0.5)",
+      label: "Support",
+    },
+  ]}
+  levels={[
+    {
+      price: 98000,
+      color: "#f97316",
+      lineStyle: "dashed",
+      label: "Resistance",
+    },
+  ]}
+  lines={[
+    {
+      from: "2026-05-06",
+      to: "2026-05-20",
+      price1: 94420,
+      price2: 99010,
+      color: "#38bdf8",
+      label: "Trend",
+    },
+  ]}
+  labels={[
+    {
+      time: "2026-05-14",
+      price: 97820,
+      text: "Momentum shift",
+    },
+  ]}
+  indicators={[
+    { type: "sma", length: 5, color: "#facc15", label: "SMA 5" },
+    { type: "ema", length: 9, color: "#a78bfa", label: "EMA 9" },
+  ]}
+/>
+
+>>>>>>> upstream/main
 ## One simple mental model
 
 Think of crypto as a new kind of financial rail:
