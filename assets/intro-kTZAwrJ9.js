@@ -1,4 +1,4 @@
-import{t as e}from"./index-BVyYhBKI.js";import{t}from"./lib-CSy1l2ej.js";var n=e();function r(e){let r={h1:`h1`,h2:`h2`,li:`li`,ol:`ol`,p:`p`,strong:`strong`,ul:`ul`,...t(),...e.components},{Callout:i,Glossary:o,GlossaryItem:s,StatCard:c,StatGrid:l}=r;return i||a(`Callout`,!0),o||a(`Glossary`,!0),s||a(`GlossaryItem`,!0),c||a(`StatCard`,!0),l||a(`StatGrid`,!0),(0,n.jsxs)(n.Fragment,{children:[(0,n.jsx)(r.h1,{children:`什么是加密货币？`}),`
+import{t as e}from"./index-BC7uvTw5.js";import{t}from"./lib-CEBtpTwm.js";var n=e();function r(e){let r={h1:`h1`,h2:`h2`,li:`li`,ol:`ol`,p:`p`,strong:`strong`,ul:`ul`,...t(),...e.components},{Callout:i,Glossary:o,GlossaryItem:s,StatCard:c,StatGrid:l}=r;return i||a(`Callout`,!0),o||a(`Glossary`,!0),s||a(`GlossaryItem`,!0),c||a(`StatCard`,!0),l||a(`StatGrid`,!0),(0,n.jsxs)(n.Fragment,{children:[(0,n.jsx)(r.h1,{children:`什么是加密货币？`}),`
 `,(0,n.jsxs)(r.p,{children:[`加密货币是一种 `,(0,n.jsx)(r.strong,{children:`数字货币`}),`，它运行在互联网网络上，而不是纸币或单一银行数据库中。`]}),`
 `,(0,n.jsx)(i,{title:`核心概念`,tone:`info`,children:(0,n.jsx)(r.p,{children:`加密货币把软件、共享账本和互联网连接结合起来，让人们不必完全依赖单一机构也能转移价值。`})}),`
 `,(0,n.jsx)(r.h2,{children:`为什么它受关注`}),`
